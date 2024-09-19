@@ -11,6 +11,8 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import CountryNews from "./components/CountryNews";
 import {ProtectedRoute, getCookie} from "./components/ProtectedRoute";
 import UserDashboard from "./components/UserDashboard";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
 
