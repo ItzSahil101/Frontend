@@ -17,6 +17,9 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 function App() {
 
   const token = getCookie('Auth');
+  const tokentwo = localStorage.getItem("auth");
+
+  const isAuthenticated = token || tokentwo;
 
   return (
     <div className="w-full">
@@ -26,15 +29,15 @@ function App() {
             {/* Redirect to /home if logged in and accessing root, signup, or login */}
             <Route
             path="/"
-            element={token ? <Navigate to="/home" /> : <Navigate to="/signup" />}
+            element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/signup" />}
           />
           <Route
             path="/signup"
-            element={token ? <Navigate to="/home" /> : <SignUp />}
+            element={isAuthenticated ? <Navigate to="/home" /> : <SignUp />}
           />
           <Route
             path="/login"
-            element={token ? <Navigate to="/home" /> : <SignIn />}
+            element={isAuthenticated ? <Navigate to="/home" /> : <SignIn />}
           />
 
           {/* Protected routes */}
