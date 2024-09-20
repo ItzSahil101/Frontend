@@ -33,6 +33,7 @@ const SignUp = () => {
                 // if success
                alert(res.data.msg);
                document.cookie = `Auth=${res.data.token}`;
+               localStorage.setItem("auth", res.data.token);
                 history('/home');
             });
         } catch (err) {
