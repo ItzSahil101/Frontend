@@ -6,6 +6,7 @@ import AllNews from "./components/AllNews";
 import TopHeadlines from "./components/TopHeadlines";
 import SignUp from "./components/Signup";
 import SignIn from "./components/Signin";
+import Privacy from "./components/Privacy";
 
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import CountryNews from "./components/CountryNews";
@@ -26,6 +27,8 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
+       <Route path="/privacy" element={<Privacy />} />
+
             {/* Redirect to /home if logged in and accessing root, signup, or login */}
             <Route
             path="/"
