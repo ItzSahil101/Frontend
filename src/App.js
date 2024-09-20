@@ -24,8 +24,8 @@ function App() {
 
   return (
     <div className="w-full">
-       <Header />
       <BrowserRouter>
+    <Header />
         <Routes>
        <Route path="/privacy" element={<Privacy />} />
 
