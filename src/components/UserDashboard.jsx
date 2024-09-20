@@ -7,7 +7,7 @@ import Loader from "./Loader";
 
 const UserDashboard = () => {
   const history = useNavigate();
-  const token = getCookie('Auth');
+  const token = getCookie('Auth') || localStorage.getItem('auth');
   const [data, setData] = useState(null);  // Initialize with null
   const [isLoading, setIsLoading] = useState(false);
   const [report, setReport] = useState("");
@@ -26,6 +26,7 @@ const UserDashboard = () => {
 
   const logout = () => {
     document.cookie = "Auth=";
+    localStorage.removeItem('auth');  // Remove token from localStorage
     history('/');
     alert("Refresh the page. Please!")
   };
