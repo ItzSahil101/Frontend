@@ -30,14 +30,11 @@ function AllNews() {
         throw new Error('Network response was not ok');
       })
       .then(myJson => {
-        console.log(myJson)
         if (myJson.success) {
           setTotalResults(myJson.data.totalResults);
-          console.log(myJson)
           setData(myJson.data.articles);
         } else {
-          setError(myJson.message || 'An error occurred');
-          console.log(myJson.message)
+          setError(myJson.msg || 'An error occurred');
         }
       })
       .catch(error => {
