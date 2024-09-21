@@ -74,6 +74,7 @@ function Header(isLoggedIn) {
               })}
             </ul>
           </li>
+          <li><Link to="/privacy">Privacy</Link></li>
           <li><Link className="no-underline font-semibold" to="#" onClick={() => { toggleTheme() }}>
       
           <input type="checkbox" className="checkbox" id="checkbox"/>
