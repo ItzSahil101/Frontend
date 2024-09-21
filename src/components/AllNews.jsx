@@ -20,38 +20,31 @@ function AllNews() {
   let pageSize = 20;
 
   useEffect(() => {
-  const fetchData = async () => {
     setIsLoading(true);
     setError(null);
-
-    try {
-      const response = await fetch(
-        `https://newsapi.org/v2/everything?q=page=${page}&pageSize=${pageSize}&apiKey=cea561410ba946eea457802032b321bf`
-      );
-
-      if (!response.ok) {
+    fetch(`https://news-boy-backend.vercel.app/api/news/?pageSize=${pageSize}&page=${page}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
         throw new Error('Network response was not ok');
-      }
-
-      const myJson = await response.json();
-
-      if (myJson.success) {
-        setTotalResults(myJson.totalResults);
-        setData(myJson.articles);
-      } else {
-        setError(myJson.message || 'An error occurred');
-      }
-    } catch (error) {
-      console.error('Fetch error:', error);
-      setError('Failed to fetch news. Please try again later.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  fetchData();
-}, [page, pageSize]);
-
+      })
+      .then(myJson => {
+        if (myJson.success) {
+          setTotalResults(myJson.data.totalResults);
+          setData(myJson.data.articles);
+        } else {
+          setError(myJson.message || 'An error occurred');
+        }
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+        setError('Failed to fetch news. Please try again later.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [page]);
 
   return (
     <>
