@@ -66,6 +66,7 @@ const UserDashboard = () => {
           width="100"
         />
         <h4>{data.details.userName}</h4>
+        <Link to="/privacy">Privacy</Link>
         <p>User</p>
         <div className={styles.btns}>
           <span style={{
