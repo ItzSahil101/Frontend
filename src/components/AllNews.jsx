@@ -34,7 +34,7 @@ function AllNews() {
           setTotalResults(myJson.data.totalResults);
           setData(myJson.data.articles);
         } else {
-          setError(myJson.message || 'An error occurred');
+          setError(myJson.msg || 'An error occurred');
         }
       })
       .catch(error => {
