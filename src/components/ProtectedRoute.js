@@ -15,7 +15,7 @@ export const getCookie = (name) => {
 };
 
 export const ProtectedRoute = () => {
-  const token = getCookie('Auth'); // Check if the Auth cookie exists
+  const token = getCookie('Auth') || localStorage.getItem('auth');
   return token ? <Outlet /> : <Navigate to="/signup" />;
 };
 

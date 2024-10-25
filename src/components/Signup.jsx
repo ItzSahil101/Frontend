@@ -8,6 +8,12 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
+    const validateEmail = (email) => {
+        // Regular expression for validating an email address
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      };
+
     const submit = async (e) => {
         e.preventDefault();
 
@@ -23,6 +29,12 @@ const SignUp = () => {
         return;
     }
 
+      // Validate email format
+      if (!validateEmail(email)) {
+        alert("Please enter a valid email address");
+        return;
+    }
+
         try {
 
             await axios.post("https://news-boy-backend.vercel.app/api/auth/", {
@@ -33,6 +45,7 @@ const SignUp = () => {
                 // if success
                alert(res.data.msg);
                document.cookie = `Auth=${res.data.token}`;
+               localStorage.setItem("auth", res.data.token);
                 history('/home');
             });
         } catch (err) {

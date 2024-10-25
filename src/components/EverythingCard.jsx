@@ -1,8 +1,14 @@
 import React from "react";
+import { FaTrash } from 'react-icons/fa'; // Import a trash icon
 
 function Card(props) {
 
   const defImg = "https://th.bing.com/th/id/OIP.MpoLvqH7JE_SP8eUa9wXeAHaHa?w=1200&h=1200&rs=1&pid=ImgDetMain";
+
+    // Function to handle delete icon click
+    const handleDeleteClick = () => {
+      props.onDelete(props.postId); // Call onDelete prop passed from parent
+    };
 
   return (
     <div className="everything-card mt-10">
@@ -36,6 +42,19 @@ function Card(props) {
               <span className="font-semibold">Published At:</span>
               ({props.publishedAt})
             </p>
+            {/* //delete icon */}
+              {/* Conditionally render delete icon */}
+      {props.showDelete && (
+        <div className="text-right pr-5">
+          <button
+            className="text-red-500 hover:text-red-700"
+            onClick={handleDeleteClick}
+            title="Delete this post"
+          >
+            <FaTrash size={20} />
+          </button>
+        </div>
+      )}
           </div>
         </div>
       </div>
