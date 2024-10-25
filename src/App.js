@@ -6,11 +6,7 @@ import AllNews from "./components/AllNews";
 import TopHeadlines from "./components/TopHeadlines";
 import SignUp from "./components/Signup";
 import SignIn from "./components/Signin";
-<<<<<<< HEAD
 import Privacy from './components/Privacy';
-=======
-import Privacy from "./components/Privacy";
->>>>>>> 7e3e047eba55ae13ebf1f9b26a795a6bf269ff47
 
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import {ProtectedRoute, getCookie} from "./components/ProtectedRoute";
@@ -32,9 +28,8 @@ function App() {
   return (
     <div className="w-full">
       <BrowserRouter>
-    <Header />
+        <Header />
         <Routes>
-<<<<<<< HEAD
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/" element={<AllNews />} />
         <Route path="/home" element={<AllNews />} />
@@ -44,15 +39,6 @@ function App() {
             path="/"
             element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/home" />}
           /> */}
-=======
-       <Route path="/privacy" element={<Privacy />} />
-
-            {/* Redirect to /home if logged in and accessing root, signup, or login */}
-            <Route
-            path="/"
-            element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/signup" />}
-          />
->>>>>>> 7e3e047eba55ae13ebf1f9b26a795a6bf269ff47
           <Route
             path="/signup"
             element={isAuthenticated ? <Navigate to="/home" /> : <SignUp />}

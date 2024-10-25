@@ -9,17 +9,10 @@ const SignUp = () => {
     const [pass, setPass] = useState('');
 
     const validateEmail = (email) => {
-<<<<<<< HEAD
         // Regular expression for validating an email address
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
       };
-=======
-    // Regular expression for validating an email address
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
->>>>>>> 7e3e047eba55ae13ebf1f9b26a795a6bf269ff47
 
     const submit = async (e) => {
         e.preventDefault();
@@ -35,13 +28,6 @@ const SignUp = () => {
         alert("Name, email, and password length must be greater than 5");
         return;
     }
-        
-    // Validate email format
-    if (!validateEmail(email)) {
-        alert("Please enter a valid email address");
-        return;
-    }
-
 
       // Validate email format
       if (!validateEmail(email)) {
