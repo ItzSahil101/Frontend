@@ -8,6 +8,9 @@ import SignUp from "./components/Signup";
 import SignIn from "./components/Signin";
 import Privacy from './components/Privacy';
 
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import {ProtectedRoute, getCookie} from "./components/ProtectedRoute";
 // import UserDashboard from "./components/UserDashboard";
@@ -29,6 +32,8 @@ function App() {
     <div className="w-full">
       <BrowserRouter>
         <Header />
+         <Analytics/>
+         <SpeedInsights/>
         <Routes>
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/" element={<AllNews />} />
