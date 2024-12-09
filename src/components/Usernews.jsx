@@ -7,7 +7,7 @@ function Usernews() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [imageUrls, setImageUrls] = useState({}); // Store image URLs by ID
+  const [imageUrls, setImageUrls] = useState({}); // Store image URLs by post ID
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,16 +15,37 @@ function Usernews() {
       setError(null);
 
       try {
-        // Fetch post data
         const response = await fetch(`https://news-boy-backend.vercel.app/api/news/userNews`);
         if (!response.ok) throw new Error('Network response was not ok');
-        
+
         const myJson = await response.json();
         if (myJson?.data) {
           setData(myJson.data);
-          
-          // After setting data, fetch images for each post
-          await fetchImages(myJson.data.map(post => post.imgUrl)); // Assuming `imgUrl` contains the image ID
+
+          // Fetch images for posts
+          const imagesData = await Promise.all(
+            myJson.data.map(async (post) => {
+              if (post.imgUrl) {
+                try {
+                  const imgResponse = await axios.get(`https://news-boy-backend.vercel.app/api/serve/image/${post.imgUrl}`);
+                  const { imageBase64, contentType } = imgResponse.data;
+                  return { id: post._id, imageUrl: `data:${contentType};base64,${imageBase64}` };
+                } catch (error) {
+                  console.error('Error loading image:', error);
+                  return { id: post._id, imageUrl: null }; // Use null if image fails to load
+                }
+              }
+              return { id: post._id, imageUrl: null }; // Handle posts without imgUrl
+            })
+          );
+
+          // Map images by post ID
+          const imagesMap = imagesData.reduce((acc, img) => {
+            acc[img.id] = img.imageUrl;
+            return acc;
+          }, {});
+
+          setImageUrls(imagesMap);
         } else {
           setError(myJson.message || 'An error occurred');
         }
@@ -33,31 +54,6 @@ function Usernews() {
         setError('Failed to fetch news. Please try again later.');
       } finally {
         setIsLoading(false);
-      }
-    };
-
-    const fetchImages = async (imageIds) => {
-      try {
-        // Fetch each image by ID
-        const imageFetches = imageIds.map(id => 
-          axios.get(`https://news-boy-backend.vercel.app/api/serve/image/${id}`).then(response => ({
-            id,
-            url: `data:${response.data.contentType};base64,${response.data.imageBase64}`
-          }))
-        );
-        
-        // Await all image fetch requests
-        const fetchedImages = await Promise.all(imageFetches);
-        
-        // Map image URLs by ID
-        const urls = fetchedImages.reduce((acc, { id, url }) => {
-          acc[id] = url;
-          return acc;
-        }, {});
-
-        setImageUrls(urls); // Update state with URLs
-      } catch (error) {
-        console.error('Error loading images:', error);
       }
     };
 
@@ -73,14 +69,14 @@ function Usernews() {
           data.length > 0 ? (
             data.map((element) => (
               <EverythingCard
-                key={element._id} // Using unique _id as key
+                key={element._id}
                 title={element.title}
                 description={element.description}
-                imgUrl={imageUrls[element.imgUrl] || ''} // Use image URL if available
-                author={element.author || "Unknown"}
-                publishedAt={element.date || "Unknown Date"}
-                source={element.source || "Users"}
-                url={element.url || ""}
+                imgUrl={imageUrls[element._id] || 'https://th.bing.com/th/id/OIP.MpoLvqH7JE_SP8eUa9wXeAHaHa?w=1200&h=1200&rs=1&pid=ImgDetMain'} // Use fetched image or fallback
+                author={element.author || 'Unknown'}
+                publishedAt={element.date || 'Unknown Date'}
+                source={element.source || 'Users'}
+                url={element.url || ''}
               />
             ))
           ) : (
